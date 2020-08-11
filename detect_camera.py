@@ -59,6 +59,8 @@ def main():
     print('Note: The first inference is slow because it includes', 'loading the model into Edge TPU memory.')
 
     video_capture = cv2.VideoCapture(0)
+    video_capture.set(cv2.CAP_PROP_FRAME_WIDTH, 1960)
+    video_capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 1600)
     while video_capture.isOpened():
         start = time.time()
         ret, frame = video_capture.read()
@@ -75,11 +77,9 @@ def main():
             bottomRightY = obj.bbox.ymax
 
             cv2.rectangle(frame, (topLeftX, topLeftY), (bottomRightX, bottomRightY), (0, 255, 0), 2)
-            cv2.putText(frame, labels[obj.id], (topLeftX, topLeftY), cv2.FONT_HERSHEY_TRIPLEX, 1, (255, 255, 0), 1,
-                        True)
+            cv2.putText(frame, labels[obj.id], (topLeftX, topLeftY), cv2.FONT_HERSHEY_TRIPLEX, 1, (255, 255, 0))
         end = time.time()
-        cv2.putText(frame, 'Press ESC to EXIT. FTPS: %2f' % (1 / (end - start)), (40, 40), cv2.FONT_HERSHEY_TRIPLEX, 0.5, (0, 0, 255),
-                    0, True)
+        cv2.putText(frame, 'Press ESC to EXIT. FTPS: %2f' % (1 / (end - start)), (40, 40), cv2.FONT_HERSHEY_TRIPLEX, 0.5, (0, 0, 255))
         cv2.imshow("Detection", frame)
 
         if cv2.waitKey(40) & 0xFF == 27:
